@@ -573,7 +573,7 @@ def main():
                     navigator.clipboard.writeText(df);
                     """))
                 no_event_ex2 = streamlit_bokeh_events(
-                    copy_button,
+                    copy_button_ex2,
                     events="GET_TEXT",
                     key="get_text",
                     refresh_on_update=False,
