@@ -233,7 +233,7 @@ def main():
             GRFz_fig.line(Time21, GRFz21,line_color=LC_th, line_width = LW); GRFz_fig.line(Time22, GRFz22,line_color=LC_th, line_width = LW); GRFz_fig.line(Time23, GRFz23,line_color=LC_th, line_width = LW); GRFz_fig.line(Time24, GRFz24,line_color=LC_th, line_width = LW); GRFz_fig.line(Time25, GRFz25,line_color=LC_th, line_width = LW)
             GRFz_fig.line(Time26, GRFz26,line_color=LC_th, line_width = LW); GRFz_fig.line(Time27, GRFz27,line_color=LC_th, line_width = LW); GRFz_fig.line(Time28, GRFz28,line_color=LC_th, line_width = LW); GRFz_fig.line(Time29, GRFz29,line_color=LC_th, line_width = LW); GRFz_fig.line(Time30, GRFz30,line_color=LC_th, line_width = LW)
 
-            st.write('> 分析区間のデータ: GRFz（赤ライン）')
+            st.write('> 分析区間のデータ: 分析データ（赤ライン）, すべてのデータ（黒ライン）')
             st.bokeh_chart(GRFz_fig, use_container_width=True)
 
         SideButton2 = st.button('分析区間のデータ')
@@ -290,7 +290,7 @@ def main():
             GRF_fig.line(Time21, GRFy21,line_color=LC_GRFy, line_width = LW); GRF_fig.line(Time22, GRFy22,line_color=LC_GRFy, line_width = LW); GRF_fig.line(Time23, GRFy23,line_color=LC_GRFy, line_width = LW); GRF_fig.line(Time24, GRFy24,line_color=LC_GRFy, line_width = LW); GRF_fig.line(Time25, GRFy25,line_color=LC_GRFy, line_width = LW)
             GRF_fig.line(Time26, GRFy26,line_color=LC_GRFy, line_width = LW); GRF_fig.line(Time27, GRFy27,line_color=LC_GRFy, line_width = LW); GRF_fig.line(Time28, GRFy28,line_color=LC_GRFy, line_width = LW); GRF_fig.line(Time29, GRFy29,line_color=LC_GRFy, line_width = LW); GRF_fig.line(Time30, GRFy30,line_color=LC_GRFy, line_width = LW)
 
-            st.write('> 分析区間のデータ: GRFz（赤ライン）, GRFy（黒ライン）')
+            st.write('> 分析区間のデータ: 分析データ（赤ライン）, すべてのデータ（黒ライン）')
             st.bokeh_chart(GRF_fig, use_container_width=True)
 
         # st.write('>> 平均値')
