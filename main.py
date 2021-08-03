@@ -6,7 +6,9 @@ import openpyxl
 import math
 from scipy.interpolate import interp1d
 import matplotlib.pyplot as plt
-import pyperclip
+from streamlit_bokeh_events import streamlit_bokeh_events
+from bokeh.models.widgets import Button
+from bokeh.models import CustomJS
 
 
 def main():
@@ -17,8 +19,8 @@ def main():
     #動画アップロード
     st.sidebar.title('1. Select Excell File')
     st.sidebar.write('>>GRFファイルのアップロード')
-    uploaded_file_01 = st.sidebar.file_uploader("データアップロード①", type='xlsx')
-    # uploaded_file_01 = ('/Users/keiichirohata/Desktop/Python/Streamlit/Sample_RW2.xlsx')
+    # uploaded_file_01 = st.sidebar.file_uploader("データアップロード①", type='xlsx')
+    uploaded_file_01 = ('/Users/keiichirohata/Desktop/Python/Streamlit/Sample_RW2.xlsx')
     st.sidebar.write('>>その他分析ファイルのアップロード')
     uploaded_file_02 = st.sidebar.file_uploader("データアップロード②", type='xlsx')
     # uploaded_file_02 = ('/Users/keiichirohata/Desktop/Python/Streamlit/ExtraData.xlsx')
@@ -37,12 +39,12 @@ def main():
     st.sidebar.title('1-3. Select valiables:File2')
     ex_Var1 = st.sidebar.text_input('その他の変数名1を入力', value='DATA_A')
     ex_Var1_Check = st.sidebar.checkbox('変数1を平均値化する', value=True)
-    ex_Var2 = st.sidebar.text_input('その他の変数名2を入力', value='EMG_MG')
-    ex_Var2_Check2 = st.sidebar.checkbox('変数2のデータを追加', value=False)
-    ex_Var2_Check = st.sidebar.checkbox('変数2を平均値化する', value=False)
-    ex_Var3 = st.sidebar.text_input('その他の変数名2を入力', value='EMG_SOL')
-    ex_Var3_Check2 = st.sidebar.checkbox('変数3のデータを追加', value=False)
-    ex_Var3_Check = st.sidebar.checkbox('変数3を平均値化する', value=False)
+    # ex_Var2 = st.sidebar.text_input('その他の変数名2を入力', value='EMG_MG')
+    # ex_Var2_Check2 = st.sidebar.checkbox('変数2のデータを追加', value=False)
+    # ex_Var2_Check = st.sidebar.checkbox('変数2を平均値化する', value=False)
+    # ex_Var3 = st.sidebar.text_input('その他の変数名2を入力', value='EMG_SOL')
+    # ex_Var3_Check2 = st.sidebar.checkbox('変数3のデータを追加', value=False)
+    # ex_Var3_Check = st.sidebar.checkbox('変数3を平均値化する', value=False)
     ex_Time = st.sidebar.text_input('ファイル②のTimeの変数名を入力', value='Time')
     st.sidebar.title('  ')
     st.sidebar.title('2. Analysis Setting')
@@ -237,7 +239,6 @@ def main():
             st.bokeh_chart(GRFz_fig, use_container_width=True)
 
         SideButton2 = st.button('分析区間のデータ')
-        CopyCheck2 = st.checkbox(label='分析区間のデータをコピーする', value=True)
         if SideButton2:
             # DataFrame: Each data
             df1 = pd.DataFrame(range(100),columns=['Frame']);
@@ -257,10 +258,18 @@ def main():
             st.write('> データフレーム(分析ステップ)')
             st.dataframe(df1, width=1000, height=150)
 
-            # copy_button = st.button(label="Copy DF")
-            if CopyCheck2:
-                df1.to_clipboard()
-                st.write('☑︎ データフレームのコピー完了')
+            # Copy?
+            copy_button1 = Button(label="Copy: All data")
+            copy_button1.js_on_event("button_click", CustomJS(args=dict(df=df1.to_csv(sep='\t')), code="""
+                navigator.clipboard.writeText(df);
+                """))
+            no_event = streamlit_bokeh_events(
+                copy_button1,
+                events="GET_TEXT",
+                key="get_text",
+                refresh_on_update=False,
+                override_height=75,
+                debounce_time=0)
 
             # Figure 2: Each data
             # Figure setting
@@ -314,7 +323,6 @@ def main():
 
         if Var2_Check:
             SideButton_Fy = st.button('GRFy')
-            CopyCheck_Fy = st.checkbox(label='GRFy:平均値のデータをコピーする', value=True)
             if SideButton_Fy:
             # DataFrame: Each data
                 GRFy_Spline = pd.DataFrame(range(0,101),columns=['Frame']);
@@ -326,16 +334,24 @@ def main():
                 GRFy_Spline['Step26']=Spline_Func(GRFy26);  GRFy_Spline['Step27']=Spline_Func(GRFy27);  GRFy_Spline['Step28']=Spline_Func(GRFy28);   GRFy_Spline['Step29']=Spline_Func(GRFy29); GRFy_Spline['Step30']=Spline_Func(GRFy30);
                 # データフレーム
                 st.dataframe(GRFy_Spline, width=1000, height=150)
-                if CopyCheck_Fy:
-                    GRFy_Spline.to_clipboard()
-                    st.write('☑︎ データフレームのコピー完了')
+                # Copy?
+                copy_button1_1 = Button(label="Copy: GRFy")
+                copy_button1_1.js_on_event("button_click", CustomJS(args=dict(df=GRFy_Spline.to_csv(sep='\t')), code="""
+                    navigator.clipboard.writeText(df);
+                    """))
+                no_event = streamlit_bokeh_events(
+                    copy_button1_1,
+                    events="GET_TEXT",
+                    key="get_text",
+                    refresh_on_update=False,
+                    override_height=75,
+                    debounce_time=0)
                 # グラフ
                 GRFy_Spline2 = GRFy_Spline.drop(columns='Frame')
                 st.line_chart(GRFy_Spline2)
 
         if Var3_Check:
             SideButton_Fz = st.button('GRFz')
-            CopyCheck_Fz = st.checkbox(label='GRFz:平均値のデータをコピーする', value=True)
             if SideButton_Fz:
             # DataFrame: Each data
                 GRFz_Spline = pd.DataFrame(range(0,101),columns=['Frame']);
@@ -347,9 +363,18 @@ def main():
                 GRFz_Spline['Step26']=Spline_Func(GRFz26);  GRFz_Spline['Step27']=Spline_Func(GRFz27);  GRFz_Spline['Step28']=Spline_Func(GRFz28);   GRFz_Spline['Step29']=Spline_Func(GRFz29); GRFz_Spline['Step30']=Spline_Func(GRFz30);
                 # データフレーム
                 st.dataframe(GRFz_Spline, width=1000, height=150)
-                if CopyCheck_Fz:
-                    GRFz_Spline.to_clipboard()
-                    st.write('☑︎ データフレームのコピー完了')
+                # Copy?
+                copy_button1_2 = Button(label="Copy: GRFz")
+                copy_button1_2.js_on_event("button_click", CustomJS(args=dict(df=GRFz_Spline.to_csv(sep='\t')), code="""
+                    navigator.clipboard.writeText(df);
+                    """))
+                no_event = streamlit_bokeh_events(
+                    copy_button1_2,
+                    events="GET_TEXT",
+                    key="get_text",
+                    refresh_on_update=False,
+                    override_height=75,
+                    debounce_time=0)
                 # グラフ
                 GRFz_Spline2 = GRFz_Spline.drop(columns='Frame')
                 st.line_chart(GRFz_Spline2)
@@ -359,7 +384,6 @@ def main():
         ## 1-3: 接地時間・滞空時間
         """
         SideButton_PhaseTime = st.button('接地・滞空時間')
-        CopyCheck_PhaseTime = st.checkbox(label='接地・滞空時間のデータをコピーする', value=True)
         if SideButton_PhaseTime:
             def PhaseTime_Func(s_Time1, s_Time2):
                 InitialContact = (s_Time1[:1].values)
@@ -381,10 +405,19 @@ def main():
             PhaseTime['Step30']=PhaseTime_Func(Time30, Time31);
 
             st.dataframe(PhaseTime, width=1000, height=150)
-            if CopyCheck_PhaseTime:
-                GRFz_Spline.to_clipboard()
-                st.write('☑︎ データフレームのコピー完了')
-
+            # Copy?
+            copy_button_PhaseTime = Button(label="Copy: Contact&Flight time")
+            copy_button_PhaseTime.js_on_event("button_click", CustomJS(args=dict(df=PhaseTime.to_csv(sep='\t')), code="""
+                navigator.clipboard.writeText(df);
+                """))
+            no_event = streamlit_bokeh_events(
+                copy_button_PhaseTime,
+                events="GET_TEXT",
+                key="get_text",
+                refresh_on_update=False,
+                override_height=75,
+                debounce_time=0)
+            #　グラフ
             st.bar_chart(PhaseTime.T)  #グラフ微妙
 
         #dfから平均値を求める
@@ -458,13 +491,22 @@ def main():
 
         ## 出力項目
             SideButton_Ex_Analysis = st.button('その他のデータ:  分析区間のデータ参照')
-            CopyCheck_ex_data = st.checkbox(label='その他のデータ: 分析区間のデータをコピーする', value=True)
             # データフレーム
             if SideButton_Ex_Analysis:
                 st.dataframe(ex_Table)
-                if CopyCheck_ex_data:
-                    ex_Table.to_clipboard()
-                    st.write('☑︎ データフレームのコピー完了')
+                # Copy?
+                copy_button_ex = Button(label="Copy: Extra data 1")
+                copy_button_ex.js_on_event("button_click", CustomJS(args=dict(df=ex_Table.to_csv(sep='\t')), code="""
+                    navigator.clipboard.writeText(df);
+                    """))
+                no_event = streamlit_bokeh_events(
+                    copy_button_ex,
+                    events="GET_TEXT",
+                    key="get_text",
+                    refresh_on_update=False,
+                    override_height=75,
+                    debounce_time=0)
+
                 # FIGURE
                 # Figure: Each data
                 # Figure setting
@@ -511,7 +553,6 @@ def main():
                 st.bokeh_chart(ex_fig, use_container_width=True)
 
             SideButton_Ex_Spline = st.button('その他のデータ:  平均値')
-            CopyCheck_ex_data_mean = st.checkbox(label='その他のデータ: 平均値のデータをコピーする', value=True)
             if SideButton_Ex_Spline:
                 def Spline_Func(s_df):
                     Num = s_df.count()
@@ -532,9 +573,18 @@ def main():
                 st.dataframe(ex_Table_Spline)
                 # データフレーム
 
-                if CopyCheck_ex_data:
-                    ex_Table_Spline.to_clipboard()
-                    st.write('☑︎ データフレームのコピー完了')
+                # Copy?
+                copy_button_ex2 = Button(label="Copy: Extra data mean")
+                copy_button_ex2.js_on_event("button_click", CustomJS(args=dict(df=ex_Table_Spline.to_csv(sep='\t')), code="""
+                    navigator.clipboard.writeText(df);
+                    """))
+                no_event_ex2 = streamlit_bokeh_events(
+                    copy_button,
+                    events="GET_TEXT",
+                    key="get_text",
+                    refresh_on_update=False,
+                    override_height=75,
+                    debounce_time=0)
 
                 ex_Table_Spline2 = ex_Table_Spline.drop(columns='Frame')
                 st.line_chart(ex_Table_Spline2)
