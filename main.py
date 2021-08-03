@@ -5,7 +5,8 @@ import pandas as pd
 import openpyxl
 import math
 from scipy.interpolate import interp1d
-import matplotlib.pyplot as plt
+import matplotlib.pyplot as 
+import pyperclip
 
 
 def main():
