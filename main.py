@@ -19,11 +19,9 @@ def main():
     #動画アップロード
     st.sidebar.title('1. Select Excell File')
     st.sidebar.write('>>GRFファイルのアップロード')
-    # uploaded_file_01 = st.sidebar.file_uploader("データアップロード①", type='xlsx')
-    uploaded_file_01 = ('/Users/keiichirohata/Desktop/Python/Streamlit/Sample_RW2.xlsx')
+    uploaded_file_01 = st.sidebar.file_uploader("データアップロード①", type='xlsx')
     st.sidebar.write('>>その他分析ファイルのアップロード')
     uploaded_file_02 = st.sidebar.file_uploader("データアップロード②", type='xlsx')
-    # uploaded_file_02 = ('/Users/keiichirohata/Desktop/Python/Streamlit/ExtraData.xlsx')
     ### Setting ###
     # 変数名の取得
     st.sidebar.title('  ')
