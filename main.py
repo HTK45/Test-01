@@ -430,10 +430,6 @@ def main():
             ex_df = pd.read_excel(ex_file, sheet_name = 0)
             ex_Time = ex_df[ex_Time]
             ex_DATA1 = ex_df[ex_Var1]
-            if ex_Var2_Check2:
-                ex_DATA2 = ex_df[ex_Var2]
-            if ex_Var3_Check2:
-                ex_DATA3 = ex_df[ex_Var3]
 
             def ExtDataAnalysis_df_Func(exDATA):
                 def ExtDataAnalysis_Func(sTime, sData, Tn, Dn):
