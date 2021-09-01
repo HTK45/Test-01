@@ -19,6 +19,7 @@ def main():
     st.title('Data Analysis for Time series')
     st.write('■ 連続したステップの地面反力データから任意の変数の平均値を計算するツール')
     st.write('使い方: https://github.com/HTK45/TimeSeries-GRF の分析WEBアプリ説明書.pdfをチェック')
+    st.write('Google Chromeでコピーできないので注意!')
 
     st.sidebar.button('Reflesh')
     #動画アップロード
