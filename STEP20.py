@@ -379,7 +379,7 @@ def Sub20(uploaded_file_01, uploaded_file_02, Time1, Var1, Var2, Var3,Thlethould
             GRFy_Spline['Step2']=Spline_Func(GRFy2);    GRFy_Spline['Step4']=Spline_Func(GRFy4);    GRFy_Spline['Step6']=Spline_Func(GRFy6);     GRFy_Spline['Step8']=Spline_Func(GRFy8);   GRFy_Spline['Step10']=Spline_Func(GRFy10);
             GRFy_Spline['Step12']=Spline_Func(GRFy12);  GRFy_Spline['Step14']=Spline_Func(GRFy14);  GRFy_Spline['Step16']=Spline_Func(GRFy16);   GRFy_Spline['Step18']=Spline_Func(GRFy18); GRFy_Spline['Step20']=Spline_Func(GRFy20);
             GRFy_Spline['Step22']=Spline_Func(GRFy22);  GRFy_Spline['Step24']=Spline_Func(GRFy24);  GRFy_Spline['Step26']=Spline_Func(GRFy26);   GRFy_Spline['Step28']=Spline_Func(GRFy28); GRFy_Spline['Step30']=Spline_Func(GRFy30);
-            GRFy_Spline['Step32']=Spline_Func(GRFy32);  GRFy_Spline['Step34']=Spline_Func(GRFy34);  GRFy_Spline['Step36']=Spline_Func(GRFy36);   GRFy_Spline['Step38']=Spline_Func(GRFy38); GRFy_Spline['Step40']=Spline_Func(GRFy42);
+            GRFy_Spline['Step32']=Spline_Func(GRFy32);  GRFy_Spline['Step34']=Spline_Func(GRFy34);  GRFy_Spline['Step36']=Spline_Func(GRFy36);   GRFy_Spline['Step38']=Spline_Func(GRFy38); GRFy_Spline['Step40']=Spline_Func(GRFy40);
 
             # データフレーム
             st.dataframe(GRFy_Spline, width=1000, height=150)
